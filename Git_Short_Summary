@@ -1,0 +1,143 @@
+git --version
+
+git config --global user.name "xxxxx"
+git config --global user.email xxx
+git config --global core.editor "vim"
+git config --global core.editor "edit -w" 
+git config --list
+
+
+ --initalizing git 
++++++++++++++++++++++++++++++
+git init 
++++++++++++++++++++++++++++++
+
+
+--to ignore file from geting tracked by git
+++++++++++++++++++++++++++++
+.gitignore file 
+****************
+++ignored files
+| * .apk  |  *.zip | log/*.log| folder/folder | 
+| log/*.log.[0-9] | -> ignore end .log + No
+++ignore the ignore
+| !folder/folder/file.txt | 
+*****************
+git config --global core.excludesfile
+                   /folder/.gitignore_global
+*****************
+#comment
+rm --cached file //to stop git from tracking
+******************
+To track empty folder add .gitkeep file in it
++++++++++++++++++++++++++++++
+
+
+--add changes to a staging area
++++++++++++++++++++++++++++++
+git add .
+git add *.txt
+git add fie.txt
+git add folder/
++++++++++++++++++++++++++++++
+
+
+--remove and move files with git
++++++++++++++++++++++++++++++
+git rm DeleteMe.txt 
+git mv  orginal.txt changed.txt 
+git mv  orginal.txt folder/changed.txt 
++++++++++++++++++++++++++++++
+
+
+--see changes made on add & stage
++++++++++++++++++++++++++++++
+git diff
+git dif file.txt
+git diff --color--words file.txt
+diff --cached
+diff --staged
++++++++++++++++++++++++++++++
+
+
+--check status 
++++++++++++++++++++++++++++++
+git status
++++++++++++++++++++++++++++++
+
+
+--read commit history
++++++++++++++++++++++++++++++
+git log
+git log --pretty=oneline
+git log --pretty=format:"%h : %an : %ar : %s"
+     %h - Abbreviated Hash 
+      %an - Authors Name
+      %ar - Date Changed
+      %s - First Line of Comment
+
+-- Shows the last 2 commit changes
+git log -p -2  
+
+--show every commit with diff
+git log -p
+
+--Prints abbreviated stats
+git log --stat 
+# Show only changes in the last week
+     hour,minute
+git log --since=1.weeks 
+
+git log --since="2014-04-12156
+git log --author="xxxx xxxxs" 
+git log --before="2014-04-13" 
+++++++++++++++++++++++++
+ 
+
+--commit or approve changes
+++++++++++++++++++++++++
+git commit -m 'Initial project version'
+git commit -a -m 'Changed comment'
++++++++++++++++++++++++++++++
+
+
+#Unstage a File
++++++++++++++++++++++++++++++
+git reset HEAD xxxxxxxx.xml
++++++++++++++++++++++++++++++
+
+
+- change previous commit
++++++++++++++++++++++++++++++
+git commit --amend
+git commit --amend -m "comment"
++++++++++++++++++++++++++++++
+
+
+--undo file changes 
++++++++++++++++++++++++++++++
+git checkout -- file.txt
+git checkout <SHA> -- file.txt
+--after to go back
+reset HEAD & checkout 
++++++++++++++++++++++++++++++
+
+
+--to swap changes made at that point
++++++++++++++++++++++++++++++
+git revert  <SHA>
++++++++++++++++++++++++++++++
+
+
+--to go back and rework --can reset back
++++++++++++++++++++++++++++++
+git reset --soft          /reset to staging
+git reset --mixed (default)   /reset to commit 
+git reset --hard         /fully reset change back
++++++++++++++++++++++++++++++
+
+
+--remove files not linked in the git repository
++++++++++++++++++++++++++++++
+git clean -n -f
++++++++++++++++++++++++++++++
