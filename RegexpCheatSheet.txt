@@ -1,0 +1,185 @@
+                         Regex
+
+g/Regular Expression/p inshort grep
+/abc/ is a convention for regualr experation
+"abc" is for string representation
+
+Mode
+/re/  case-sentitive by default
+/re/g global search all matches
+/re/i  case-insensitive
+/re/m multiline
+/re/s   dot-matches-all match include newline
+/re/igms
+
+/car/ matches "car"
+/car/ matches first  and lst leter of "carnivalcar"
+
+search form left to right 
+eager to search 
+
+Metacharacters
+ .    \  *  +  [ ]  ^  $  |  ?  ( ) { , }  /re/ ! = :
+
+Wildcard metacharacter( . ) aka perod
+    Matches every character except newline 
+    /h.t/ matches "hat","hot" but not "heat"
+    /h.t/s this include new line
+
+Escaping metachar.. ( \ ) aka backslash
+    Used for only for metacharacter to esc
+   Eg.
+     /9\.00/ matches "9.00" but not "9400"
+    /c:\/desktop\/folder/
+
+Character set metacharacter ( [] )
+    aka brackets
+     /c[aeiou]t/g matches cat cit not czt
+     /gr[ae][ea]t/ matches great
+
+Caracter ranges ([0-9])
+     Represent all character b/n two characters
+     Only works inside characterset ([])
+     [0-9][a-z][0-9] matches 1a1
+     [0-9]  [A-Za-z] [a-ek-ou-y]
+     not for [53-88] is the same as [3-8]
+
+Negate a character set(^)  aka carot
+     Works  inside a character set  represent 
+     outside char.range has another meaning
+     Represent one character
+     /c[^aeiou]t/ matches cnt  but not cat cot
+
+Note
+    Metacharacters inside a character set
+    Don't need escaping except for  - ] ^ \
+    If escaped noting will happen
+    Eg. /var[[\](][0-9][\])]/ matches var]9)
+
+Shorthand character sets
+    \d for digit like [0-9]
+    \w word character [a-zA-Z0-9_]
+    \s whitespace [ \t\r\n]
+        Note \r=enter \n=newline \t=tab
+    \D not digit [^0-9]
+    \w not word character [^a-zA-Z0-9_]
+    \S not whitespace [^\t\r\n]
+
+Note
+   /[^\d\s]/ are not the same /[\D\S]/
+        /[^\d\s]/ not digit or space
+         /[\D\S]/  either not digit or not space
+   /\d\d\d\d/ matches 1919
+   /\w\w\w\s\d/ matches a_9 3 
+
+posix bracket expressions
+  Not avalable in most languages like java,js
+  [:alpha:] use inside charaterset [[:alpha:]] etc...
+
+Repetition metacharacters (* + ?)
+    * zero or more
+    + one or more
+    ?  zero or one another meaning optional
+   Eg.
+     /colou?r/ matches color or colour
+     /\w+s/ any words that end with s
+
+Quantified repetition {min,max}
+      positive numbers , can be zero
+      max is optional
+    Eg.  
+      \d{4,8} matches number with 4 - 8 digits
+      \d{0,} same as \d*
+      \d{1,} same as \d+
+      /A{1,2}s/ matches As or AAs not AAAs
+     /\d{3}-\d{3}-\d{4}/ US phone number
+
+Greedy Eager and Lazy expression
+     By default the \re\ is greedy and eager
+     For lazy we need to add ? after repetition 
+     meta 
+     For ? use ?? 
+    Eg.
+       " 01_fy_07_report_99.xls"
+   Greedy approch 
+     /\d+\w+\d+/  matches all except .xls
+   Lazy approch
+      /\d+?\w+?\d+?/  matches  01
+      "page 266"  /.*?[0-9]*?/  matches nothing
+ 
+Note 
+    Efficency matching + less backtrancking
+     = speedy result
+    
+Grouping metacharacters ( )
+    /(abc)+/  abc abc
+    /(A)?live/  matches Alive & live
+    Also for capture and alteratioin
+
+Alternation metachar..( | )is or operator
+    Matches prv or nxt expression
+    Most left get precedence
+    Grouping can be used for distinction
+    To cupture group
+   Eg.    
+    /abs|ddg/ matches abs and ddg
+    /apple(juice|sauce)/ matches 
+        applejuice and applesauce
+     for "three one two" 
+     /one|two|three/
+      matches "three" first
+Note
+  Try to use the less complex and less char
+   expression first
+
+Repeating and Nesting Alternation
+   Repeating
+          /(aa|bb|cc){6}/ matches  aabbccdd
+    Nesting
+         /(\d{2}([a-z]{2}|))
+         
+Start and End Anchors ^ $ \A \Z
+     Refer postion not actual character
+     ^ start of a line or string
+     $  end of a line or string
+      \A start of a string not a line
+      \Z start of a stringnot a line
+    Eg.  /^\w+(\.com)$/ matches any.com
+      if we remove ^ matches the last in list
+      if we add /re/gm it checks every new line 
+
+word boundaries 
+     Refer postion not actual character
+      before and after characters
+     \b is boundaries
+        /\bat\b/ matches at not ato at tatt
+      \B not a boundaries
+           for  "at the bulding bat satt"         
+          /\Bat\B/ matches   at  in side the satt
+
+Backreferences
+      Access  captured group, \1 to \9
+      (a?)b capture blank space
+      (a)?b the group is optional 
+     /a(p{2})e group  apple and stores ppl 
+   Eg
+     /(apples) to \1/ matches apple to apple
+    /<(i|em)>.+?</\1>/ matches 
+    <i>hello<i> and <em>hello<em>
+  Eg. Find and replace using backslash
+      /^(\d{1,2}),([\w .]+) ([\w]+?)(,\d{4})/g
+       /\1,\3 \2\4/
+     changes->1,nicos yohannis,1212
+                 to  1,yohannis nicos,1212
+
+Non-capturing(?:)
+      for "or and ap to ap"
+     / (?:or) and (ap) to \1/  matches ap and all
+     / (?:or) and (ap) to \2/  matches no
+
+Lookaround assertion
+     (?<!abc)test   Negative Look Behind abc
+     (?<=abc)text  Positive Look Behind abc
+      text(?=abc)    Positive  Look Ahead abc
+     text(?!abc)      Negative Look Ahead abc
+  Eg.
